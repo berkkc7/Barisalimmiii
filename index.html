@@ -79,8 +79,8 @@
                 if (i === 1) {
                     showTopText();
                 }
-                const x = heart1(i) * 18 + centerX;
-                const y = -heart2(i) * 18 + centerY;
+                const x = heart1(i) * (canvas.width / 30) + centerX;
+                const y = -heart2(i) * (canvas.width / 30) + centerY;
 
                 ctx.beginPath();
                 ctx.moveTo(x, y);
