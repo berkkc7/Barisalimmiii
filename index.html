@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalp Animasyonu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #topText {
+            font-family: 'Arial', sans-serif;
+            font-size: 6vw; max-font-size: 40px;
+            font-weight: bold;
+            color: #000080;
+            text-shadow: 0 0 10px #000080, 0 0 20px #000080, 0 0 30px #000080;
+            opacity: 0;
+            white-space: nowrap;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        canvas {
+            display: block;
+            width: 90vw;
+            max-width: 600px;
+            height: auto;
+            margin-bottom: 40px;
+        }
+        #bottomText {
+            font-family: 'Arial', sans-serif;
+            font-size: 6vw; max-font-size: 40px;
+            font-weight: bold;
+            color: #000080;
+            text-shadow: 0 0 10px #000080, 0 0 20px #000080, 0 0 30px #000080;
+            opacity: 0;
+            white-space: nowrap;
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="topText"></div>
+    <canvas id="canvas"></canvas>
+    <div id="bottomText"></div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = Math.min(window.innerWidth * 0.9, 600);
+        canvas.height = canvas.width;
+
+        function heart1(M) {
+            return 15 * Math.pow(Math.sin(M), 3);
+        }
+
+        function heart2(M) {
+            return 12 * Math.cos(M) - 5 * Math.cos(2 * M) - 2 * Math.cos(3 * M) - Math.cos(4 * M);
+        }
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        ctx.strokeStyle = 'purple';
+        ctx.lineWidth = 1;
+
+        let i = 0;
+
+        function draw() {
+            if (i < 500) {
+                if (i === 1) {
+                    showTopText();
+                }
+                const x = heart1(i) * 18 + centerX;
+                const y = -heart2(i) * 18 + centerY;
+
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(centerX, centerY - 1);
+                ctx.stroke();
+
+                i++;
+                setTimeout(draw, 10);
+            }
+        }
+
+        function showTopText() {
+            const topText = document.getElementById('topText');
+            const text = "SENİ ÇOK SEVİYOM MERCANIMM";
+            let charIndex = 0;
+
+            const typeWriter = setInterval(() => {
+                if (charIndex < text.length) {
+                    topText.textContent += text.charAt(charIndex);
+                    topText.style.opacity = 1;
+                    charIndex++;
+                } else {
+                    clearInterval(typeWriter);
+                    setTimeout(showBottomText, 500);
+                }
+            }, 100);
+        }
+
+        function showBottomText() {
+            const bottomText = document.getElementById('bottomText');
+            const text = "Barışalımmııı";
+            let charIndex = 0;
+
+            const typeWriter = setInterval(() => {
+                if (charIndex < text.length) {
+                    bottomText.textContent += text.charAt(charIndex);
+                    bottomText.style.opacity = 1;
+                    charIndex++;
+                } else {
+                    clearInterval(typeWriter);
+                }
+            }, 100);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
